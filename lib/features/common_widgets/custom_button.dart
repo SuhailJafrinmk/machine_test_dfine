@@ -30,8 +30,6 @@ class CustomButton extends StatefulWidget {
 }
 
 class _CustomButtonBlackState extends State<CustomButton> {
-  late Color buttonColor;
-
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +45,7 @@ class _CustomButtonBlackState extends State<CustomButton> {
           height: widget.height ?? size.height * 0.08,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(widget.buttonRadius ?? 10),
-            color: buttonColor,
+            color: Colors.red,
           ),
           child: Center(
             child: Text(

@@ -7,6 +7,7 @@ class AddCategory extends TodoEvent{
   AddCategory({required this.categoryModel});
 }
 class AddTodo extends TodoEvent{
+  final String categoryName;
   final TodoModel todoModel;
-  AddTodo({required this.todoModel});
+  AddTodo({required this.categoryName,required this.todoModel});
 }
