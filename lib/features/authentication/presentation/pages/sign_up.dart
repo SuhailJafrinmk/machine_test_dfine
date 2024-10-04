@@ -30,14 +30,14 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0), // Add some padding
+        padding: const EdgeInsets.all(16.0), 
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             Text(
               'Create an Account',
-              style: Theme.of(context).textTheme.displayLarge, // Use theme text style
+              style: Theme.of(context).textTheme.displayLarge, 
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
@@ -60,7 +60,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   CustomTextField(
                     hintText: 'Password',
                     textEditingController: passwordController,
-                    obscureText: true, // Hide the password text
+                    obscureText: true, 
                     validator: (value) => ValidatorFunctions.validatePassword(value),
                   ),
                   const SizedBox(height: 16),

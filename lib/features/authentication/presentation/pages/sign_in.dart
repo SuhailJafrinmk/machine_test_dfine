@@ -43,6 +43,7 @@ class _SignInPageState extends State<SignInPage> {
               child: Column(
                 children: [
                   CustomTextField(
+                    onChanged: (value) => ValidatorFunctions.validateEmail(value),
                     hintText: 'Email',
                     textEditingController: emailController,
                     validator: (value) => ValidatorFunctions.validateEmail(value),
@@ -51,7 +52,7 @@ class _SignInPageState extends State<SignInPage> {
                   CustomTextField(
                     hintText: 'Password',
                     textEditingController: passwordController,
-                    obscureText: true, // Hide the password text
+                    obscureText: true, 
                     validator: (value) => ValidatorFunctions.validatePassword(value),
                   ),
                   const SizedBox(height: 24),
@@ -59,8 +60,7 @@ class _SignInPageState extends State<SignInPage> {
                     text: 'Sign In',
                     ontap: () {
                       if (formKey.currentState!.validate()) {
-                        // If form is valid, proceed to sign in
-                        _handleSignIn();
+                        
                       }
                     },
                   ),
