@@ -40,6 +40,7 @@ dependencies:
   cloud_firestore: ^5.4.4
   dart_either: ^2.0.0
   flutter_bloc: ^8.1.6
+  shared_preferences: ^2.3.2
 
 dev_dependencies:
   flutter_test:

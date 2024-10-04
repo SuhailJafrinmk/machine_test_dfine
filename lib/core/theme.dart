@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:machine_test_dfine/config/app_constants.dart';
 import 'package:machine_test_dfine/core/text_styles.dart';
 
 ThemeData darkTheme=ThemeData(
-textTheme: TextTheme(
+  scaffoldBackgroundColor: AppColors.primaryColorDark,
+textTheme: const TextTheme(
     displayLarge: AppTextStyles.displayLarge,
     displayMedium: AppTextStyles.displayMedium,
     displaySmall: AppTextStyles.displaySmall,
