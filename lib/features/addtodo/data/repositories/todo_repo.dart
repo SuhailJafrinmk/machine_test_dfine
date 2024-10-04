@@ -6,4 +6,5 @@ import 'package:machine_test_dfine/features/addtodo/data/models/todo_model.dart'
 abstract class TodoRepo {
 Future<Either<AppExceptions,void>> addCategory(CategoryModel categoryModel);
 Future<Either<AppExceptions,void>> addTodo(String categoryName,TodoModel todoModel);
+
 }

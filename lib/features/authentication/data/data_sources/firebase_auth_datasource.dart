@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dart_either/dart_either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:machine_test_dfine/config/firestore_paths.dart';
 import 'package:machine_test_dfine/core/custom_types.dart';
 import 'package:machine_test_dfine/core/errors.dart';
 import 'package:machine_test_dfine/features/authentication/data/models/user_model.dart';
@@ -8,14 +9,14 @@ import 'package:machine_test_dfine/features/authentication/data/models/user_mode
 class FirebaseAuthDatasource {
   final FirebaseAuth firebaseAuth;
   final FirebaseFirestore firebaseFirestore;
-  FirebaseAuthDatasource({required this.firebaseAuth,required this.firebaseFirestore});
-  EitherResponse signInWithEmailAndPassword(String email,String password)async{
+  final FirestorePaths firestorePaths;
+  FirebaseAuthDatasource({required this.firebaseAuth,required this.firebaseFirestore,required this.firestorePaths});
+  EitherResponse signInWithEmailAndPassword(UserModel userModel)async{
     try {
-      UserCredential userCredential=await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential=await firebaseAuth.signInWithEmailAndPassword(email: userModel.email, password: userModel.password!);
       User ? user=userCredential.user;
       if(user!=null){
        UserModel userModel=UserModel(id: user.uid,email: user.email ?? '',name: user.displayName ?? '');
-       firebaseFirestore.collection('USERS').doc(user.uid).set(userModel.toJson());
        return Right(userModel);
       }
       return Left(AppExceptions(errorMessage: 'User not authorized'));
@@ -23,4 +24,28 @@ class FirebaseAuthDatasource {
       return Left(AppExceptions(errorMessage: e.toString()));
     }
   }
+
+
+  EitherResponse createUserWithEmailAndPassword(UserModel userModel) async {
+  try {
+    UserCredential userCredential = await firebaseAuth.createUserWithEmailAndPassword(
+      email: userModel.email, 
+      password: userModel.password!,
+    );
+    User? user = userCredential.user;
+    if (user != null) {
+      UserModel newUser = UserModel(
+        id: user.uid, 
+        email: user.email ?? '', 
+        name: userModel.name,
+      );
+      await firestorePaths.userDocument(user.uid).set(newUser.toJson());
+      return Right(newUser);
+    }
+    return Left(AppExceptions(errorMessage: 'User creation failed'));
+  } catch (e) {
+    return Left(AppExceptions(errorMessage: e.toString()));
+  }
+}
+
 }

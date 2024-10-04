@@ -7,6 +7,7 @@ import 'package:machine_test_dfine/features/addtodo/presentation/bloc/todo_bloc.
 import 'package:machine_test_dfine/features/authentication/data/repositories/auth_repository.dart';
 import 'package:machine_test_dfine/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:machine_test_dfine/features/authentication/presentation/pages/sign_in.dart';
+import 'package:machine_test_dfine/features/authentication/presentation/pages/sign_up.dart';
 import 'package:machine_test_dfine/firebase_options.dart';
 import 'injection_container.dart' as di;
 

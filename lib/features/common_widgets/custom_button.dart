@@ -1,20 +1,21 @@
-
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatefulWidget {
   final double? width;
   final Color? color;
-  final String text;
+  final Widget? text;
   final double? height;
   final VoidCallback ontap;
   final double? buttonRadius;
   final Color? textColor;
   final double? elevation;
   final TextStyle? buttonTextStyle;
-  
+  final bool isLoading;
+  final String buttonLabel;
+
   CustomButton({
     super.key,
-    required this.text,
+    this.text,
     this.buttonRadius,
     this.width,
     this.color,
@@ -23,19 +24,26 @@ class CustomButton extends StatefulWidget {
     this.textColor,
     this.elevation,
     this.buttonTextStyle,
+    this.isLoading = false,
+    required this.buttonLabel,
   });
 
   @override
-  State<CustomButton> createState() => _CustomButtonBlackState();
+  State<CustomButton> createState() => _CustomButtonState();
 }
 
-class _CustomButtonBlackState extends State<CustomButton> {
-
+class _CustomButtonState extends State<CustomButton> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    final TextStyle defaultTextStyle = widget.buttonTextStyle ??
+        TextStyle(
+            color: widget.textColor ?? Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.bold);
+
     return InkWell(
-      onTap: widget.ontap,
+      onTap: widget.isLoading ? null : widget.ontap, // Disable tap if loading
       child: Material(
         elevation: widget.elevation ?? 10,
         color: widget.color ?? Colors.black,
@@ -45,17 +53,24 @@ class _CustomButtonBlackState extends State<CustomButton> {
           height: widget.height ?? size.height * 0.08,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(widget.buttonRadius ?? 10),
-            color: Colors.red,
+            color: widget.color ?? Colors.red, // Default button color
           ),
           child: Center(
-            child: Text(
-              widget.text,
-              style: widget.buttonTextStyle ?? TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: widget.textColor ?? Colors.white,
-              ),
-            ),
+            child: widget.isLoading
+                ? SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 3,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          widget.textColor ?? Colors.white),
+                    ),
+                  )
+                : widget.text ??
+                    Text(
+                      widget.buttonLabel,
+                      style: defaultTextStyle,
+                    ),
           ),
         ),
       ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:machine_test_dfine/core/validations.dart';
+import 'package:machine_test_dfine/features/authentication/data/models/user_model.dart';
+import 'package:machine_test_dfine/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:machine_test_dfine/features/common_widgets/custom_button.dart';
 import 'package:machine_test_dfine/features/common_widgets/custom_textfield.dart';
 
@@ -77,11 +80,15 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   const SizedBox(height: 24),
                   CustomButton(
-                    text: 'Sign Up',
+                    buttonLabel: 'Sign up',
                     ontap: () {
                       if (formKey.currentState!.validate()) {
-                        // If form is valid, proceed to submit
-                        // _handleSignUp();
+                     BlocProvider.of<AuthBloc>(context).add(
+                      SignUpUserClickedEvent(
+                        userModel: UserModel(
+                       email: emailController.text.trim(),
+                       name: userNameController.text.trim(),
+                       password: passwordController.text.trim())));
                       }
                     },
                   ),

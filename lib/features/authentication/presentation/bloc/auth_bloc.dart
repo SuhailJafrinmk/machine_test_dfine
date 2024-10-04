@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:machine_test_dfine/features/authentication/data/models/user_model.dart';
 import 'package:machine_test_dfine/features/authentication/data/repositories/auth_repository.dart';
 import 'package:machine_test_dfine/features/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:meta/meta.dart';
@@ -16,18 +17,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   }
 
-  FutureOr<void> signUpUserClickedEvent(SignUpUserClickedEvent event, Emitter<AuthState> emit) {
+  FutureOr<void> signUpUserClickedEvent(SignUpUserClickedEvent event, Emitter<AuthState> emit)async{
+    emit(AuthenticationLoading());
+    final response=await authRepository.createUserWithEmailAndPassword(event.userModel);
+    response.fold(
+      ifLeft: (failure){
+        emit(AuthenticationError(message: failure.errorMessage));
+      }, 
+      ifRight: (success){
+        emit(SignupSuccess());
+      });
+
   
   }
 
   FutureOr<void> signInUserClickedEvent(SignInUserClickedEvent event, Emitter<AuthState> emit)async{
-    final response=await authRepository.signInWithEmailAndPassword(event.userEmail, event.password);
+    emit(AuthenticationLoading());
+    final response=await authRepository.signInWithEmailAndPassword(event.userModel);
     response.fold(
       ifLeft: (failure){
-
+        emit(AuthenticationError(message: failure.errorMessage));
       },
       ifRight: (success){
-
+        emit(SigninSuccess());
       });
   }
 }

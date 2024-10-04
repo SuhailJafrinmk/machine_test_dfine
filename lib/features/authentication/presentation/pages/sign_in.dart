@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:machine_test_dfine/core/validations.dart';
+import 'package:machine_test_dfine/features/authentication/data/models/user_model.dart';
+import 'package:machine_test_dfine/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:machine_test_dfine/features/authentication/presentation/pages/sign_up.dart';
 import 'package:machine_test_dfine/features/common_widgets/custom_button.dart';
 import 'package:machine_test_dfine/features/common_widgets/custom_textfield.dart';
 
@@ -17,7 +21,6 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   void dispose() {
-    // Dispose controllers to avoid memory leaks
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -31,10 +34,10 @@ class _SignInPageState extends State<SignInPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.2), // Add space from the top
+            SizedBox(height: MediaQuery.of(context).size.height * 0.2),
             Text(
               'Sign In',
-              style: Theme.of(context).textTheme.bodyMedium, // Use theme text style
+              style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
@@ -43,25 +46,40 @@ class _SignInPageState extends State<SignInPage> {
               child: Column(
                 children: [
                   CustomTextField(
-                    onChanged: (value) => ValidatorFunctions.validateEmail(value),
+                    onChanged: (value) =>
+                        ValidatorFunctions.validateEmail(value),
                     hintText: 'Email',
                     textEditingController: emailController,
-                    validator: (value) => ValidatorFunctions.validateEmail(value),
+                    validator: (value) =>
+                        ValidatorFunctions.validateEmail(value),
                   ),
                   const SizedBox(height: 16),
                   CustomTextField(
                     hintText: 'Password',
                     textEditingController: passwordController,
-                    obscureText: true, 
-                    validator: (value) => ValidatorFunctions.validatePassword(value),
+                    obscureText: true,
+                    validator: (value) =>
+                        ValidatorFunctions.validatePassword(value),
                   ),
                   const SizedBox(height: 24),
-                  CustomButton(
-                    text: 'Sign In',
-                    ontap: () {
-                      if (formKey.currentState!.validate()) {
-                        
-                      }
+                  BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      return CustomButton(
+                        isLoading: AuthState is AuthenticationLoading,
+                        buttonLabel: 'Sign in',
+                        ontap: () {
+                          if (formKey.currentState!.validate() && AuthState is! AuthenticationLoading){
+                            BlocProvider.of<AuthBloc>(context).add(
+                              SignInUserClickedEvent(
+                                userModel: UserModel(
+                                  email: emailController.text.trim(),
+                                  password: passwordController.text.trim(),
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                      );
                     },
                   ),
                 ],
@@ -70,23 +88,22 @@ class _SignInPageState extends State<SignInPage> {
             const SizedBox(height: 20),
             TextButton(
               onPressed: () {
-                // Add forgot password functionality here
                 print("Forgot Password clicked");
               },
               child: const Text("Forgot Password?"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SignUpPage()));
+              },
+              child: const Text("Not a uesr? Sign up"),
             ),
           ],
         ),
       ),
     );
-  }
-
-  void _handleSignIn() {
-    // Perform sign-in logic here
-    final email = emailController.text;
-    final password = passwordController.text;
-
-    // Add your sign-in logic with Firebase or backend here
-    print('Email: $email, Password: $password');
   }
 }

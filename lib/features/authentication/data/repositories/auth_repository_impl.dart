@@ -7,7 +7,12 @@ class AuthRepositoryImpl implements AuthRepository{
   final FirebaseAuthDatasource firebaseAuthDatasource;
   AuthRepositoryImpl({required this.firebaseAuthDatasource});
   @override
-  EitherResponse signInWithEmailAndPassword(String email, String password) {
-  return firebaseAuthDatasource.signInWithEmailAndPassword(email, password);
+  EitherResponse signInWithEmailAndPassword(UserModel userModel) {
+  return firebaseAuthDatasource.signInWithEmailAndPassword(userModel);
+  }
+
+  @override
+  EitherResponse createUserWithEmailAndPassword(UserModel userModel) {
+    return firebaseAuthDatasource.createUserWithEmailAndPassword(userModel);
   }
 }

@@ -19,7 +19,7 @@ Future<void> init() async {
 
   sl.registerLazySingleton<FirestorePaths>(()=>FirestorePaths(sl<FirebaseFirestore>()));
   sl.registerLazySingleton<FirebaseAuthDatasource>(
-    () => FirebaseAuthDatasource(firebaseAuth: sl<FirebaseAuth>(), firebaseFirestore: sl<FirebaseFirestore>()),
+    () => FirebaseAuthDatasource(firebaseAuth: sl<FirebaseAuth>(), firebaseFirestore: sl<FirebaseFirestore>(),firestorePaths: sl<FirestorePaths>()),
   );
   sl.registerLazySingleton<FirebaseTodoDatasource>(()=>FirebaseTodoDatasource(firebaseFirestore: sl<FirebaseFirestore>(), firebaseAuth: sl<FirebaseAuth>(), firestorePaths: sl<FirestorePaths>()));
   sl.registerLazySingleton<AuthRepository>(
