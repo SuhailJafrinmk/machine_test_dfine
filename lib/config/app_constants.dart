@@ -8,3 +8,7 @@ class AppColors{
   static const Color floatingActionButtonDark=Colors.white;
   static const Color darkTileBackground=Color.fromARGB(115, 62, 62, 62);
 }
+
+class AssetPaths{
+  static const String profileAvatar='assets/images/profile_avatar_withoutbg.png';
+}

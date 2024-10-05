@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:machine_test_dfine/config/app_constants.dart';
 import 'package:machine_test_dfine/features/addtodo/data/models/category_model.dart';
 import 'package:machine_test_dfine/features/addtodo/presentation/category_bloc/todo_bloc.dart';
 import 'package:machine_test_dfine/features/addtodo/presentation/widgets/category_grid.dart';
@@ -17,6 +20,7 @@ class TodoCategoriesPage extends StatefulWidget {
 
 class _TodoCategoriesPageState extends State<TodoCategoriesPage> {
   final TextEditingController searchController = TextEditingController();
+  final User ? user=FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
@@ -44,10 +48,10 @@ class _TodoCategoriesPageState extends State<TodoCategoriesPage> {
             padding: EdgeInsets.zero,
             children: <Widget>[
               UserAccountsDrawerHeader(
-                accountName: const Text('John Doe'),
-                accountEmail: const Text('john.doe@example.com'),
+                accountName:  Text(user?.displayName ?? 'Guest'),
+                accountEmail:  Text(user!.email!),
                 currentAccountPicture: const CircleAvatar(
-                  backgroundImage: AssetImage('assets/profile_image.jpg'),
+                  backgroundImage: AssetImage(AssetPaths.profileAvatar),
                 ),
               ),
               ListTile(
