@@ -3,7 +3,24 @@ import 'package:machine_test_dfine/config/app_constants.dart';
 import 'package:machine_test_dfine/core/text_styles.dart';
 
 ThemeData darkTheme=ThemeData(
-  scaffoldBackgroundColor: AppColors.primaryColorDark,
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
+    backgroundColor: AppColors.primaryColorLight,
+    hoverColor: Colors.blue,
+  ),
+  listTileTheme: const ListTileThemeData(
+    subtitleTextStyle: AppTextStyles.labelLarge,
+    tileColor: AppColors.darkTileBackground,
+    titleTextStyle: AppTextStyles.headlineSmall,
+  ),
+  iconTheme: const IconThemeData(
+    color: Colors.blue
+  ),
+appBarTheme: const AppBarTheme(
+  iconTheme: IconThemeData(color: Colors.white),
+  titleTextStyle: AppTextStyles.displaySmall,
+  backgroundColor: AppColors.primaryColorDark
+),
+scaffoldBackgroundColor: AppColors.primaryColorDark,
 textTheme: const TextTheme(
     displayLarge: AppTextStyles.displayLarge,
     displayMedium: AppTextStyles.displayMedium,

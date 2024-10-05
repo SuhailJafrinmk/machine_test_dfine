@@ -11,6 +11,7 @@ class TodosInCategoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme=Theme.of(context);
     context.read<ManageTodoBloc>().add(FetchTodos(categoryName: categoryName));
 
     return Scaffold(
@@ -50,8 +51,9 @@ class TodosInCategoryPage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: theme.floatingActionButtonTheme.backgroundColor,
         onPressed: () => _showAddTodoModal(context,categoryName),
-        child: const Icon(Icons.add),
+        child:  Icon(Icons.add,color: theme.floatingActionButtonTheme.hoverColor,),
       ),
     );
   }

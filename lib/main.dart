@@ -39,38 +39,39 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => ManageTodoBloc(todoRepo: di.sl<TodoRepo>()),
         ),
-        BlocProvider(
-          create: (context) => ConnectivityCubit(),
-        )
       ],
-      child: BlocListener<ConnectivityCubit, InternetStatus>(
-        listener: (context, state) {
-          if(state.status==ConnectivityStatus.disconnected){
-            _showNoConnectionDialog();
-          }else{
-            _dismissNoConnectionDialog();
-          }
-        },
-        child: MaterialApp(
-          theme: darkTheme,
-          debugShowCheckedModeBanner: false,
-          home: const SplashScreen(),
+      child: BlocProvider(
+        create: (context) => ConnectivityCubit()..trackConnectivityChange(),
+        child: BlocListener<ConnectivityCubit, InternetStatus>(
+          listener: (context, state) {
+            if (state.status == ConnectivityStatus.disconnected) {
+              _showNoConnectionDialog();
+            } else {
+              _dismissNoConnectionDialog();
+            }
+          },
+          child: MaterialApp(
+            theme: darkTheme,
+            debugShowCheckedModeBanner: false,
+            home: const SplashScreen(),
+          ),
         ),
       ),
     );
   }
 
-   void _showNoConnectionDialog() {
+  void _showNoConnectionDialog() {
     final context = navigatorKey.currentState?.overlay?.context;
     if (context != null) {
       showDialog(
         context: context,
-        barrierDismissible: false, 
+        barrierDismissible: false,
         builder: (context) => WillPopScope(
-          onWillPop: () async => false, 
+          onWillPop: () async => false,
           child: AlertDialog(
             title: const Text('No Connection'),
-            content: const Text('You are not connected to the internet.\nPlease connect to the internet to dismiss this dialogue'),
+            content: const Text(
+                'You are not connected to the internet.\nPlease connect to the internet to dismiss this dialogue'),
             actions: [
               TextButton(
                 onPressed: () {},
@@ -82,10 +83,10 @@ class MyApp extends StatelessWidget {
       );
     }
   }
-    void _dismissNoConnectionDialog() {
+
+  void _dismissNoConnectionDialog() {
     if (navigatorKey.currentState?.canPop() ?? false) {
       navigatorKey.currentState?.pop();
     }
   }
 }
-

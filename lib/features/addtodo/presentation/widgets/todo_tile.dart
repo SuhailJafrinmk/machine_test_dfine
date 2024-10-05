@@ -8,11 +8,13 @@ class TodoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme=Theme.of(context);
     return Card(
+      elevation: 10,
+      color: theme.listTileTheme.tileColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      elevation: 3,
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -22,23 +24,16 @@ class TodoTile extends StatelessWidget {
             // Todo Name
             Text(
               todoModel.title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-              ),
+              style: theme.listTileTheme.titleTextStyle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 8),
-
-            // Todo Description with max lines = 2 and overflow handling
             Text(
               todoModel.description ?? '',
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.black54,
-              ),
+              style: theme.listTileTheme.subtitleTextStyle,
             ),
             const SizedBox(height: 8),
 

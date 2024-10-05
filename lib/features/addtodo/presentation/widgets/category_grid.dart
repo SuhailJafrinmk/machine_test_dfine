@@ -24,9 +24,18 @@ class CategoryGrid extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(categoryModel.categoryName, style: Theme.of(context).textTheme.headlineMedium),
+            Text(categoryModel.categoryName,
+             style: Theme.of(context).textTheme.headlineMedium,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+             ),
             const SizedBox(height: 10),
-            Text('$totalCategories Tasks', style: Theme.of(context).textTheme.headlineSmall),
+            Text(
+              '$totalCategories Tasks', 
+            style: Theme.of(context).textTheme.labelLarge,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            ),
           ],
         ),
       ),
