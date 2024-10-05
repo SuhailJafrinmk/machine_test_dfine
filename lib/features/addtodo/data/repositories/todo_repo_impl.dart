@@ -17,4 +17,15 @@ class TodoRepoImpl implements TodoRepo{
   Future<Either<AppExceptions, void>> addTodo(String categoryName, TodoModel todoModel) {
     return firebaseTodoDatasource.addTodo(categoryName, todoModel);
   }
+
+  @override
+  Future<Either<AppExceptions, List<CategoryModel>>> getCategories() {
+    return firebaseTodoDatasource.getCategories();
+  }
+
+  @override
+  Future<Either<AppExceptions, List<TodoModel>>> getTodos(String categoryName) {
+    return firebaseTodoDatasource.getTodos(categoryName);
+  }
+
 }

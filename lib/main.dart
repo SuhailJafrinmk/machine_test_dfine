@@ -1,13 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:machine_test_dfine/core/theme.dart';
+import 'package:machine_test_dfine/core/utility_functions.dart';
 import 'package:machine_test_dfine/features/addtodo/data/repositories/todo_repo.dart';
-import 'package:machine_test_dfine/features/addtodo/presentation/bloc/todo_bloc.dart';
+import 'package:machine_test_dfine/features/addtodo/presentation/category_bloc/todo_bloc.dart';
+import 'package:machine_test_dfine/features/addtodo/presentation/todo_bloc/manage_todo_bloc.dart';
 import 'package:machine_test_dfine/features/authentication/data/repositories/auth_repository.dart';
 import 'package:machine_test_dfine/features/authentication/presentation/bloc/auth_bloc.dart';
-import 'package:machine_test_dfine/features/authentication/presentation/pages/sign_in.dart';
-import 'package:machine_test_dfine/features/authentication/presentation/pages/sign_up.dart';
 import 'package:machine_test_dfine/firebase_options.dart';
 import 'injection_container.dart' as di;
 
@@ -32,13 +33,17 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => TodoBloc(todoRepo: di.sl<TodoRepo>()),
+        ),
+        BlocProvider(
+          create: (context) => ManageTodoBloc(todoRepo: di.sl<TodoRepo>()),
         )
       ],
       child: MaterialApp(
         theme: darkTheme,
         debugShowCheckedModeBanner: false,
-        home: const SignInPage(),
+        home: UtilityFunctions.checkLogin(),
       ),
     );
   }
 }
+

@@ -5,7 +5,8 @@ import 'package:machine_test_dfine/config/firestore_paths.dart';
 import 'package:machine_test_dfine/features/addtodo/data/datasources/firebase_todo_datasource.dart';
 import 'package:machine_test_dfine/features/addtodo/data/repositories/todo_repo.dart';
 import 'package:machine_test_dfine/features/addtodo/data/repositories/todo_repo_impl.dart';
-import 'package:machine_test_dfine/features/addtodo/presentation/bloc/todo_bloc.dart';
+import 'package:machine_test_dfine/features/addtodo/presentation/category_bloc/todo_bloc.dart';
+import 'package:machine_test_dfine/features/addtodo/presentation/todo_bloc/manage_todo_bloc.dart';
 import 'package:machine_test_dfine/features/authentication/data/data_sources/firebase_auth_datasource.dart';
 import 'package:machine_test_dfine/features/authentication/data/repositories/auth_repository.dart';
 import 'package:machine_test_dfine/features/authentication/data/repositories/auth_repository_impl.dart';
@@ -30,4 +31,5 @@ Future<void> init() async {
   );
   sl.registerFactory<AuthBloc>(()=>AuthBloc(authRepository: sl<AuthRepository>()));
   sl.registerFactory<TodoBloc>(()=>TodoBloc(todoRepo: sl<TodoRepo>()));
+  sl.registerFactory<ManageTodoBloc>(()=>ManageTodoBloc(todoRepo: sl<TodoRepo>()));
 }

@@ -14,6 +14,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({required this.authRepository}) : super(AuthInitial()) {
     on<SignUpUserClickedEvent>(signUpUserClickedEvent);
     on<SignInUserClickedEvent>(signInUserClickedEvent);
+    on<LogoutUserEvent>(logoutUserEvent);
 
   }
 
@@ -40,6 +41,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
       ifRight: (success){
         emit(SigninSuccess());
+      });
+  }
+
+
+  FutureOr<void> logoutUserEvent(LogoutUserEvent event, Emitter<AuthState> emit)async{
+    final response=await authRepository.logoutUser();
+    response.fold(
+      ifLeft: (failure){
+        emit(AuthenticationError(message: failure.errorMessage));
+      },
+      ifRight: (success){
+        emit(SignOutSuccess());
       });
   }
 }

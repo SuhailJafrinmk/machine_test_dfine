@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dart_either/dart_either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:machine_test_dfine/config/firestore_paths.dart';
 import 'package:machine_test_dfine/core/custom_types.dart';
 import 'package:machine_test_dfine/core/errors.dart';
@@ -74,15 +77,17 @@ class FirebaseTodoDatasource {
   }
   try {
     final response = await firestorePaths.todosCollection(user.uid, categoryName).get();
-    List<TodoModel> categories = response.docs.map((doc) {
+    List<TodoModel> todos = response.docs.map((doc) {
       return TodoModel.fromMap(doc.data() as Map<String,dynamic>);
     }).toList();
-    return Right(categories); 
+    return Right(todos); 
 
   } catch (e) {
     return Left(AppExceptions(errorMessage: e.toString()));
   }
 }
+
+
 
 
 }

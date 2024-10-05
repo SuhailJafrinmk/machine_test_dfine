@@ -10,5 +10,6 @@ class SignUpUserClickedEvent extends AuthEvent{
 class SignInUserClickedEvent extends AuthEvent{
   final UserModel userModel;
   SignInUserClickedEvent({required this.userModel});
-
 }
+
+class LogoutUserEvent extends AuthEvent{}

@@ -3,11 +3,12 @@ part of 'auth_bloc.dart';
 @immutable
 sealed class AuthState {}
 
-final class AuthInitial extends AuthState {}
-final class SignupSuccess extends AuthState{}
-final class SigninSuccess extends AuthState{}
-final class AuthenticationLoading extends AuthState{}
-final class AuthenticationError extends AuthState{
+ class AuthInitial extends AuthState {}
+ class SignupSuccess extends AuthState{}
+ class SigninSuccess extends AuthState{}
+ class AuthenticationLoading extends AuthState{}
+ class AuthenticationError extends AuthState{
   final String message;
   AuthenticationError({required this.message});
 }
+class SignOutSuccess extends AuthState{}

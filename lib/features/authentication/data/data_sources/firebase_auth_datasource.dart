@@ -48,4 +48,17 @@ class FirebaseAuthDatasource {
   }
 }
 
+Future<Either<AppExceptions, void>> logoutUser() async {
+  User? user = firebaseAuth.currentUser;
+  if (user == null) {
+    return Left(AppExceptions(errorMessage: 'User not logged in'));
+  }
+  try {
+    await firebaseAuth.signOut();
+    return const Right(null); // Corrected: Ensure Right is returned
+  } catch (e) {
+    return Left(AppExceptions(errorMessage: e.toString()));
+  }
+}
+
 }
