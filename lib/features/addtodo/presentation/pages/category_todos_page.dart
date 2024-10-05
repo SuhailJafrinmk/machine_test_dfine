@@ -32,7 +32,7 @@ class TodosInCategoryPage extends StatelessWidget {
           } else if (state is TodosFetchedSuccess) {
             final todos = state.Todos;
             if (todos.isEmpty) {
-              return const Center(child: Text('No todos available.'));
+              return  Center(child: Text('No todos available for $categoryName.'));
             }
             return ListView.builder(
               itemCount: todos.length,
@@ -51,21 +51,31 @@ class TodosInCategoryPage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showAddTodoModal(context),
+        onPressed: () => _showAddTodoModal(context,categoryName),
         child: const Icon(Icons.add),
       ),
     );
   }
 
-  void _showAddTodoModal(BuildContext context) {
-    final TextEditingController todoNameController = TextEditingController();
-    final TextEditingController todoDescriptionController = TextEditingController();
-    
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
+void _showAddTodoModal(BuildContext context, String categoryName) {
+  final TextEditingController todoNameController = TextEditingController();
+  final TextEditingController todoDescriptionController = TextEditingController();
+  
+  showModalBottomSheet(
+    isScrollControlled: true, // Allows modal to resize when the keyboard appears
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (context) {
+      return Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom, // Adjust padding for keyboard
+          left: 16,
+          right: 16,
+          top: 16,
+        ),
+        child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -105,8 +115,10 @@ class TodosInCategoryPage extends StatelessWidget {
               ),
             ],
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
+    },
+  );
+}
+
 }

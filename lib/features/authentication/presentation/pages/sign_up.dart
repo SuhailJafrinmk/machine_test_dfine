@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:machine_test_dfine/core/validations.dart';
 import 'package:machine_test_dfine/features/authentication/data/models/user_model.dart';
 import 'package:machine_test_dfine/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:machine_test_dfine/features/authentication/presentation/pages/sign_in.dart';
 import 'package:machine_test_dfine/features/common_widgets/custom_button.dart';
 import 'package:machine_test_dfine/features/common_widgets/custom_textfield.dart';
 
@@ -83,14 +84,27 @@ class _SignUpPageState extends State<SignUpPage> {
                     buttonLabel: 'Sign up',
                     ontap: () {
                       if (formKey.currentState!.validate()) {
-                     BlocProvider.of<AuthBloc>(context).add(
-                      SignUpUserClickedEvent(
-                        userModel: UserModel(
-                       email: emailController.text.trim(),
-                       name: userNameController.text.trim(),
-                       password: passwordController.text.trim())));
+                        BlocProvider.of<AuthBloc>(context).add(
+                          SignUpUserClickedEvent(
+                            userModel: UserModel(
+                              email: emailController.text.trim(),
+                              name: userNameController.text.trim(),
+                              password: passwordController.text.trim(),
+                            ),
+                          ),
+                        );
                       }
                     },
+                  ),
+                  const SizedBox(height: 16),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const SignInPage()));
+                    },
+                    child: const Text(
+                      "Already a user? Sign in",
+                      style: TextStyle(color: Colors.blueAccent),
+                    ),
                   ),
                 ],
               ),

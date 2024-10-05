@@ -9,6 +9,7 @@ import 'package:machine_test_dfine/features/addtodo/presentation/category_bloc/t
 import 'package:machine_test_dfine/features/addtodo/presentation/todo_bloc/manage_todo_bloc.dart';
 import 'package:machine_test_dfine/features/authentication/data/repositories/auth_repository.dart';
 import 'package:machine_test_dfine/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:machine_test_dfine/features/authentication/presentation/pages/splash_screen.dart';
 import 'package:machine_test_dfine/firebase_options.dart';
 import 'injection_container.dart' as di;
 
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         theme: darkTheme,
         debugShowCheckedModeBanner: false,
-        home: UtilityFunctions.checkLogin(),
+        home: const SplashScreen(),
       ),
     );
   }

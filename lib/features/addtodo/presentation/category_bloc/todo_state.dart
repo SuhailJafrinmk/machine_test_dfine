@@ -3,6 +3,7 @@ part of 'todo_bloc.dart';
 @immutable
 sealed class TodoState {}
 final class TodoInitial extends TodoState {}
+class TodoLoading extends TodoState{}
 class FetcedCategories extends TodoState{
   final List<CategoryModel> categoryModel;
   FetcedCategories({required this.categoryModel});

@@ -15,6 +15,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   FutureOr<void> addCategory(AddCategory event, Emitter<TodoState> emit)async{
+    emit(TodoLoading());
     final response=await todoRepo.addCategory(event.categoryModel);
     response.fold(ifLeft: (failure){
       emit(TodoError(message: failure.errorMessage));
@@ -26,6 +27,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
 
   FutureOr<void> fetchCategories(FetchCategories event, Emitter<TodoState> emit)async{
+    emit(TodoLoading());
     final response=await todoRepo.getCategories();
     response.fold(
       ifLeft: (failure){
