@@ -41,7 +41,7 @@ class _SignUpPageState extends State<SignUpPage> {
          ScaffoldMessenger.of(context).showSnackBar(customSnackbar(context, true, state.message));
       }else if(state is SignupSuccess){
         ScaffoldMessenger.of(context).showSnackBar(customSnackbar(context, false, 'Successfully created an account'));
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>TodoCategoriesPage()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const TodoCategoriesPage()));
       }
       },
       child: Scaffold(

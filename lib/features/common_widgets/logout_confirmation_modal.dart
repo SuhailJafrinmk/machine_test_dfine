@@ -20,7 +20,10 @@ void showLogoutConfirmation(BuildContext context) {
           BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
               if(state is SignOutSuccess){
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignInPage()));
+                 Navigator.of(context).pushAndRemoveUntil(
+    MaterialPageRoute(builder: (context) => const SignInPage()),
+    (route) => false,
+  );
               }
             },
             child: TextButton(

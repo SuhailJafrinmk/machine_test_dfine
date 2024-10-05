@@ -120,7 +120,15 @@ class _TodoCategoriesPageState extends State<TodoCategoriesPage> {
                   } else if (state is FetcedCategories) {
                     if (state.categoryModel.isEmpty) {
                       return Center(
-                        child: Text('There is no items here'),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('There is no items here'),
+                            TextButton(onPressed: (){
+                              _showAddCategoryModal(context, state.categoryModel);
+                            }, child: Text('Add Category'))
+                          ],
+                        ),
                       );
                     }
                     return GridView.builder(

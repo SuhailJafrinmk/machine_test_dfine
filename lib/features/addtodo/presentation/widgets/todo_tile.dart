@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:machine_test_dfine/core/utility_functions.dart';
 import 'package:machine_test_dfine/features/addtodo/data/models/todo_model.dart';
 
 class TodoTile extends StatelessWidget {
@@ -8,6 +9,7 @@ class TodoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String formattedDate=UtilityFunctions.formatDateTime(todoModel.createdAt);
     final theme=Theme.of(context);
     return Card(
       elevation: 10,
@@ -41,7 +43,7 @@ class TodoTile extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: Text(
-                '${todoModel.createdAt}',
+                formattedDate,
                 style: const TextStyle(
                   fontSize: 12,
                   color: Colors.grey,
