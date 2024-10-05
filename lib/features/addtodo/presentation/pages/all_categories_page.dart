@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:machine_test_dfine/features/addtodo/data/models/category_model.dart';
 import 'package:machine_test_dfine/features/addtodo/presentation/category_bloc/todo_bloc.dart';
 import 'package:machine_test_dfine/features/addtodo/presentation/widgets/category_grid.dart';
-import 'package:machine_test_dfine/features/authentication/presentation/bloc/auth_bloc.dart';
-import 'package:machine_test_dfine/features/authentication/presentation/pages/sign_in.dart';
 import 'package:machine_test_dfine/features/common_widgets/custom_textfield.dart';
 import 'package:machine_test_dfine/features/common_widgets/logout_confirmation_modal.dart';
 

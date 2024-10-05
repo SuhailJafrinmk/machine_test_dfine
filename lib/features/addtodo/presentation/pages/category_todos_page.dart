@@ -82,6 +82,7 @@ void _showAddTodoModal(BuildContext context, String categoryName) {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   controller: todoNameController,
                   decoration: const InputDecoration(
                     labelText: 'Todo Name',

@@ -21,7 +21,7 @@ class FirebaseTodoDatasource {
     User? user = firebaseAuth.currentUser;
     try {
       if (user != null) {
-        await firestorePaths.categoriesCollection(user.uid).add(model.toMap());
+        await firestorePaths.categoryDocument(user.uid, model.categoryName).set(model.toMap());
         return const Right(null);
       } else {
         return Left(UnauthorizedException());
