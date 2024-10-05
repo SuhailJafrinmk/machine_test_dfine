@@ -44,7 +44,7 @@ class _SignInPageState extends State<SignInPage> {
               SizedBox(height: MediaQuery.of(context).size.height * 0.2),
               Text(
                 'Sign In',
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.headlineLarge,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),

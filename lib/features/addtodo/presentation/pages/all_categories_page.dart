@@ -108,6 +108,11 @@ class _TodoCategoriesPageState extends State<TodoCategoriesPage> {
                       ),
                     );
                   } else if (state is FetcedCategories) {
+                    if(state.categoryModel.isEmpty){
+                      return Center(
+                        child: Text('There is no items here'),
+                      );
+                    }
                     return GridView.builder(
                       padding: const EdgeInsets.all(16.0),
                       itemCount: state.categoryModel.length + 1, // Add 1 for the blank card
@@ -119,7 +124,7 @@ class _TodoCategoriesPageState extends State<TodoCategoriesPage> {
                       ),
                       itemBuilder: (context, index) {
                         if (index == state.categoryModel.length) {
-                          return _buildAddCategoryCard(context);
+                          return _buildAddCategoryCard(context,state.categoryModel);
                         }
                         final item = state.categoryModel[index];
                         return CategoryGrid(
@@ -140,10 +145,10 @@ class _TodoCategoriesPageState extends State<TodoCategoriesPage> {
   }
 
   // Function to build the blank card with a button
-  Widget _buildAddCategoryCard(BuildContext context) {
+  Widget _buildAddCategoryCard(BuildContext context,List<CategoryModel> categories) {
     return GestureDetector(
       onTap: () {
-        _showAddCategoryModal(context);
+        _showAddCategoryModal(context,categories);
       },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -162,12 +167,13 @@ class _TodoCategoriesPageState extends State<TodoCategoriesPage> {
     );
   }
 
-  // Function to show the modal for adding a new category
-void _showAddCategoryModal(BuildContext context) {
+
+void _showAddCategoryModal(BuildContext context, List<CategoryModel> categories) {
   final TextEditingController categoryController = TextEditingController();
-  
+  final formKey = GlobalKey<FormState>();
+
   showModalBottomSheet(
-    isScrollControlled: true, // This allows the modal to resize when the keyboard appears
+    isScrollControlled: true, 
     context: context,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -175,45 +181,60 @@ void _showAddCategoryModal(BuildContext context) {
     builder: (context) {
       return Padding(
         padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom, // Adjust padding based on keyboard
+          bottom: MediaQuery.of(context).viewInsets.bottom, 
           left: 16,
           right: 16,
           top: 16,
         ),
-        child: SingleChildScrollView(  // Allows content to be scrollable
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'Add New Category',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 16),
-              CustomTextField(
-                hintText: 'Enter category name',
-                textEditingController: categoryController,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  if (categoryController.text.isNotEmpty) {
-                    BlocProvider.of<TodoBloc>(context).add(AddCategory(
-                      categoryModel: CategoryModel(
-                        categoryName: categoryController.text,
-                        createdAt: DateTime.now(),
-                      ),
-                    ));
-                    Navigator.pop(context); // Close the modal after adding the category
-                  }
-                },
-                child: const Text('Add Category'),
-              ),
-            ],
+        child: SingleChildScrollView(
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Add New Category',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 16),
+                CustomTextField(
+                  hintText: 'Enter category name',
+                  textEditingController: categoryController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Category name cannot be empty';
+                    }
+
+                    if (categories.any((category) => 
+                      category.categoryName.toLowerCase() == value.toLowerCase())) {
+                      return 'Category already exists';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      BlocProvider.of<TodoBloc>(context).add(AddCategory(
+                        categoryModel: CategoryModel(
+                          categoryName: categoryController.text.trim(),
+                          createdAt: DateTime.now(),
+                        ),
+                      ));
+                      Navigator.pop(context); 
+                    }
+                  },
+                  child: const Text('Add Category'),
+                ),
+              ],
+            ),
           ),
         ),
       );
     },
   );
 }
+
 
 }

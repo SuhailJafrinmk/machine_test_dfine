@@ -59,7 +59,8 @@ class TodosInCategoryPage extends StatelessWidget {
 void _showAddTodoModal(BuildContext context, String categoryName) {
   final TextEditingController todoNameController = TextEditingController();
   final TextEditingController todoDescriptionController = TextEditingController();
-  
+  final formKey = GlobalKey<FormState>();
+
   showModalBottomSheet(
     isScrollControlled: true, 
     context: context,
@@ -75,44 +76,54 @@ void _showAddTodoModal(BuildContext context, String categoryName) {
           top: 16,
         ),
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: todoNameController,
-                decoration: const InputDecoration(
-                  labelText: 'Todo Name',
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: todoNameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Todo Name',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Todo Name cannot be empty';
+                    }
+                    return null;
+                  },
                 ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                controller: todoDescriptionController,
-                decoration: const InputDecoration(
-                  labelText: 'Description',
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: todoDescriptionController,
+                  decoration: const InputDecoration(
+                    labelText: 'Description (optional)',
+                  ),
+                  maxLines: 2,
                 ),
-                maxLines: 2,
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  if (todoNameController.text.isNotEmpty) {
-                    final newTodo = TodoModel(
-                      title: todoNameController.text,
-                      description: todoDescriptionController.text,
-                      createdAt: DateTime.now(),
-                    );
-                    context.read<ManageTodoBloc>().add(
-                      AddTodo(
-                        categoryName: categoryName,
-                        todoModel: newTodo,
-                      ),
-                    );
-                    Navigator.pop(context);
-                  }
-                },
-                child: const Text('Add Todo'),
-              ),
-            ],
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      // Validation passed, add the todo
+                      final newTodo = TodoModel(
+                        title: todoNameController.text.trim(),
+                        description: todoDescriptionController.text.trim(),
+                        createdAt: DateTime.now(),
+                      );
+                      context.read<ManageTodoBloc>().add(
+                        AddTodo(
+                          categoryName: categoryName,
+                          todoModel: newTodo,
+                        ),
+                      );
+                      Navigator.pop(context); // Close the modal after adding the todo
+                    }
+                  },
+                  child: const Text('Add Todo'),
+                ),
+              ],
+            ),
           ),
         ),
       );

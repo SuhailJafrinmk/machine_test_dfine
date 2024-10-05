@@ -41,7 +41,7 @@ class _SignUpPageState extends State<SignUpPage> {
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             Text(
               'Create an Account',
-              style: Theme.of(context).textTheme.displayLarge, 
+              style: Theme.of(context).textTheme.headlineLarge, 
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
