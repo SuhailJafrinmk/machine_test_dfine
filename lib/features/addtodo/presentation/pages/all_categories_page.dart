@@ -216,8 +216,8 @@ class _TodoCategoriesPageState extends State<TodoCategoriesPage> {
                           category.categoryName.toLowerCase() ==
                           value.toLowerCase())) {
                         return 'Category already exists';
-                      } else if (value.length > 15) {
-                        return 'Category name should be shorter than 15 chars';
+                      } else if (value.length > 20) {
+                        return 'Category name should be shorter than 20 chars';
                       }
                       return null;
                     },
