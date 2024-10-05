@@ -7,6 +7,7 @@ import 'package:machine_test_dfine/features/authentication/presentation/bloc/aut
 import 'package:machine_test_dfine/features/authentication/presentation/pages/sign_up.dart';
 import 'package:machine_test_dfine/features/common_widgets/custom_button.dart';
 import 'package:machine_test_dfine/features/common_widgets/custom_textfield.dart';
+import 'package:machine_test_dfine/features/common_widgets/snackbar.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -32,7 +33,10 @@ class _SignInPageState extends State<SignInPage> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if(state is SigninSuccess){
+          ScaffoldMessenger.of(context).showSnackBar(customSnackbar(context, false, 'Login successfull'));
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>TodoCategoriesPage()));
+        }else if(state is AuthenticationError){
+          ScaffoldMessenger.of(context).showSnackBar(customSnackbar(context, true, state.message));
         }
       },
       child: Scaffold(
@@ -85,6 +89,8 @@ class _SignInPageState extends State<SignInPage> {
                                   ),
                                 ),
                               );
+                            }else{
+                              ScaffoldMessenger.of(context).showSnackBar(customSnackbar(context, true, 'Please check your input'));
                             }
                           },
                         );

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:machine_test_dfine/features/addtodo/data/models/todo_model.dart';
 import 'package:machine_test_dfine/features/addtodo/presentation/todo_bloc/manage_todo_bloc.dart';
 import 'package:machine_test_dfine/features/addtodo/presentation/widgets/todo_tile.dart';
+import 'package:machine_test_dfine/features/common_widgets/snackbar.dart';
 
 class TodosInCategoryPage extends StatelessWidget {
   final String categoryName;
@@ -92,6 +93,8 @@ void _showAddTodoModal(BuildContext context, String categoryName) {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Todo Name cannot be empty';
+                    }else if(value.length>30){
+                      return 'Make shorter titles up to 30 chars';
                     }
                     return null;
                   },
@@ -121,6 +124,8 @@ void _showAddTodoModal(BuildContext context, String categoryName) {
                         ),
                       );
                       Navigator.pop(context); // Close the modal after adding the todo
+                    }else{
+                      ScaffoldMessenger.of(context).showSnackBar(customSnackbar(context, true, 'Please check your input'));
                     }
                   },
                   child: const Text('Add Todo'),

@@ -7,7 +7,7 @@ SnackBar customSnackbar(context, bool error, String messege) {
     content: Text(
       messege,
     ),
-    backgroundColor: error ? Colors.teal : CupertinoColors.destructiveRed,
+    backgroundColor: error ? CupertinoColors.destructiveRed : Colors.teal,
     duration: const Duration(seconds: 3),
     behavior: SnackBarBehavior.floating,
     margin: const EdgeInsets.all(10),
