@@ -6,6 +6,7 @@ import 'package:machine_test_dfine/features/addtodo/presentation/widgets/categor
 import 'package:machine_test_dfine/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:machine_test_dfine/features/authentication/presentation/pages/sign_in.dart';
 import 'package:machine_test_dfine/features/common_widgets/custom_textfield.dart';
+import 'package:machine_test_dfine/features/common_widgets/logout_confirmation_modal.dart';
 
 class TodoCategoriesPage extends StatefulWidget {
   const TodoCategoriesPage({super.key});
@@ -59,21 +60,15 @@ class _TodoCategoriesPageState extends State<TodoCategoriesPage> {
                 title: const Text('Theme'),
                 onTap: () {},
               ),
-              BlocListener<AuthBloc, AuthState>(
-                listener: (context, state) {
-                  if (state is SignOutSuccess) {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => SignInPage()));
-                  }
-                },
-                child: ListTile(
+            
+                 ListTile(
                   leading: const Icon(Icons.logout),
                   title: const Text('Logout'),
                   onTap: () {
-                    BlocProvider.of<AuthBloc>(context).add(LogoutUserEvent());
+                    showLogoutConfirmation(context);
                   },
                 ),
-              ),
+            
             ],
           ),
         ),

@@ -11,7 +11,6 @@ class TodosInCategoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Trigger the event to fetch todos when this page is loaded
     context.read<ManageTodoBloc>().add(FetchTodos(categoryName: categoryName));
 
     return Scaffold(
@@ -62,7 +61,7 @@ void _showAddTodoModal(BuildContext context, String categoryName) {
   final TextEditingController todoDescriptionController = TextEditingController();
   
   showModalBottomSheet(
-    isScrollControlled: true, // Allows modal to resize when the keyboard appears
+    isScrollControlled: true, 
     context: context,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -70,7 +69,7 @@ void _showAddTodoModal(BuildContext context, String categoryName) {
     builder: (context) {
       return Padding(
         padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom, // Adjust padding for keyboard
+          bottom: MediaQuery.of(context).viewInsets.bottom,
           left: 16,
           right: 16,
           top: 16,
@@ -108,7 +107,7 @@ void _showAddTodoModal(BuildContext context, String categoryName) {
                         todoModel: newTodo,
                       ),
                     );
-                    Navigator.pop(context); // Close the modal
+                    Navigator.pop(context);
                   }
                 },
                 child: const Text('Add Todo'),
